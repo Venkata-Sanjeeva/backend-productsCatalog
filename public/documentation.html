@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
+        h1 { color: #1a73e8; }
+        h2 { color: #3c4043; margin-top: 20px; }
+        .route { margin-bottom: 20px; }
+        code { background-color: #f8f9fa; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>API Documentation</h1>
+    
+    <div class="route">
+        <h2>GET <code>/api/filter/hello</code></h2>
+        <p>Returns a welcome message.</p>
+        <p><strong>Example Response:</strong></p>
+        <code>{"message": "Hello! Welcome to Products Catalog!!!"}</code>
+    </div>
+    
+    <div class="route">
+        <h2>GET <code>/api/products</code></h2>
+        <p>Fetches all available products in the database.</p>
+        <p><strong>Example Response:</strong> JSON array of products.</p>
+    </div>
+    
+    <div class="route">
+        <h2>GET <code>/api/products/filter</code></h2>
+        <p>Fetches products with optional filters.</p>
+        <p><strong>Query Parameters:</strong></p>
+        <ul>
+            <li><code>id</code> - Filter by product ID</li>
+            <li><code>name</code> - Filter by product name (case insensitive)</li>
+            <li><code>numericFilters</code> - Apply numeric filters on fields such as <code>price</code> or <code>rating</code>. Use operators like <code>&gt;</code>, <code>&gt;=</code>, <code>=</code>, <code>&lt;</code>, and <code>&lt;=</code>.</li>
+        </ul>
+        <p><strong>Example Query:</strong> <code>/api/products/filter?numericFilters=price&gt;100,rating&gt;=4</code></p>
+    </div>
+</body>
+</html>
