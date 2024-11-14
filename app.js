@@ -3,9 +3,12 @@ const router = require("./routes/filter")
 require("dotenv").config();
 // always run populate.js file separately with command
 const connectDB = require("./db/connect")
+const cors = require('cors');
+
 
 const app = express();
 
+app.use(cors()); // This allows all origins
 app.use("/api", router)
 app.use(express.static("public"));
 
