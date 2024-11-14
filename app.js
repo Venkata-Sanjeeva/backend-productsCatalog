@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 const start = async () => {
     await connectDB(process.env.MONGO_URI)
-    app.listen(5000, () => {
+    app.listen(3000, () => {
         console.log("Server is Listening at 5000!")
     })
 }
