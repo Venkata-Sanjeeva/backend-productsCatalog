@@ -1,23 +1,38 @@
-require("dotenv").config()
+require("dotenv").config();
 
-const connectDB = require("./db/connect")
+const connectDB = require("./db/connect");
+const dbProducts = require("./models/filteringModel");
+const axios = require("axios");
 
-const exProducts = require("./models/filteringModel")
+async function getData() {
+  const data = await axios.get("https://supersimplebackend.dev/products").then(res => res.data);
+  return data;
+}
 
-const jsonProducts = require("./data/products")
+async function structureTheData() {
+  const data = await getData();
+  const transformedData = data.map(item => ({
+    id: item.id,
+    image: item.image,
+    name: item.name,
+    rating: item.rating.stars,
+    price: item.priceCents / 100,
+  }));
+  return transformedData;
+}
 
 const start = async () => {
-    try {
-        await connectDB(process.env.MONGO_URI)
-        await exProducts.deleteMany(); // this will erase all the products data before you upload the raw data into your dataBase
-        await exProducts.create(jsonProducts)
-        console.log("Connected Successfully");
-        process.exit(0) // will stop this file running until it reaches this line it's like return keyword and the process is a global variable
-        // 0 indicates to stop 
-    } catch (error) {
-        console.log(error);
-        process.exit(1) // whereas 1 indicates to continue this execution
-    }
-}
+  try {
+    const jsonProducts = await structureTheData();  // Awaiting transformed data here
+    await connectDB(process.env.MONGO_URI);
+    await dbProducts.deleteMany(); // Erase all existing products
+    await dbProducts.create(jsonProducts); // Insert new products
+    console.log("Connected Successfully");
+    process.exit(0); // Stop execution
+  } catch (error) {
+    console.log(error);
+    process.exit(1); // Continue execution with error
+  }
+};
 
 start();
